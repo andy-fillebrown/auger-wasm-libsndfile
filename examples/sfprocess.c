@@ -67,8 +67,8 @@ main (void)
 	*/
 	SF_INFO		sfinfo ;
 	int			readcount ;
-	const char	*infilename = "input.wav" ;
-	const char	*outfilename = "output.wav" ;
+	const char	*infilename = "input.flac" ;
+	const char	*outfilename = "output.flac" ;
 
 	/* The SF_INFO struct must be initialized before using it.
 	*/

@@ -1105,21 +1105,21 @@ sf_command	(SNDFILE *sndfile, int command, void *data, int datasize)
 			*/
 			break ;
 
-		case SFC_SET_DITHER_ON_WRITE :
-			if (data == NULL || datasize != SIGNED_SIZEOF (SF_DITHER_INFO))
-				return (psf->error = SFE_BAD_COMMAND_PARAM) ;
-			memcpy (&psf->write_dither, data, sizeof (psf->write_dither)) ;
-			if (psf->file.mode == SFM_WRITE || psf->file.mode == SFM_RDWR)
-				dither_init (psf, SFM_WRITE) ;
-			break ;
+		//case SFC_SET_DITHER_ON_WRITE :
+		//	if (data == NULL || datasize != SIGNED_SIZEOF (SF_DITHER_INFO))
+		//		return (psf->error = SFE_BAD_COMMAND_PARAM) ;
+		//	memcpy (&psf->write_dither, data, sizeof (psf->write_dither)) ;
+		//	if (psf->file.mode == SFM_WRITE || psf->file.mode == SFM_RDWR)
+		//		dither_init (psf, SFM_WRITE) ;
+		//	break ;
 
-		case SFC_SET_DITHER_ON_READ :
-			if (data == NULL || datasize != SIGNED_SIZEOF (SF_DITHER_INFO))
-				return (psf->error = SFE_BAD_COMMAND_PARAM) ;
-			memcpy (&psf->read_dither, data, sizeof (psf->read_dither)) ;
-			if (psf->file.mode == SFM_READ || psf->file.mode == SFM_RDWR)
-				dither_init (psf, SFM_READ) ;
-			break ;
+		//case SFC_SET_DITHER_ON_READ :
+		//	if (data == NULL || datasize != SIGNED_SIZEOF (SF_DITHER_INFO))
+		//		return (psf->error = SFE_BAD_COMMAND_PARAM) ;
+		//	memcpy (&psf->read_dither, data, sizeof (psf->read_dither)) ;
+		//	if (psf->file.mode == SFM_READ || psf->file.mode == SFM_RDWR)
+		//		dither_init (psf, SFM_READ) ;
+		//	break ;
 
 		case SFC_FILE_TRUNCATE :
 			if (psf->file.mode != SFM_WRITE && psf->file.mode != SFM_RDWR)
@@ -1194,64 +1194,64 @@ sf_command	(SNDFILE *sndfile, int command, void *data, int datasize)
 			memcpy (data, psf->loop_info, sizeof (SF_LOOP_INFO)) ;
 			return SF_TRUE ;
 
-		case SFC_SET_BROADCAST_INFO :
-			{	int format = SF_CONTAINER (psf->sf.format) ;
+		//case SFC_SET_BROADCAST_INFO :
+		//	{	int format = SF_CONTAINER (psf->sf.format) ;
 
-				/* Only WAV and RF64 supports the BEXT (Broadcast) chunk. */
-				if (format != SF_FORMAT_WAV && format != SF_FORMAT_WAVEX && format != SF_FORMAT_RF64)
-					return SF_FALSE ;
-				} ;
+		//		/* Only WAV and RF64 supports the BEXT (Broadcast) chunk. */
+		//		if (format != SF_FORMAT_WAV && format != SF_FORMAT_WAVEX && format != SF_FORMAT_RF64)
+		//			return SF_FALSE ;
+		//		} ;
 
-			/* Only makes sense in SFM_WRITE or SFM_RDWR mode. */
-			if ((psf->file.mode != SFM_WRITE) && (psf->file.mode != SFM_RDWR))
-				return SF_FALSE ;
-			/* If data has already been written this must fail. */
-			if (psf->broadcast_16k == NULL && psf->have_written)
-			{	psf->error = SFE_CMD_HAS_DATA ;
-				return SF_FALSE ;
-				} ;
+		//	/* Only makes sense in SFM_WRITE or SFM_RDWR mode. */
+		//	if ((psf->file.mode != SFM_WRITE) && (psf->file.mode != SFM_RDWR))
+		//		return SF_FALSE ;
+		//	/* If data has already been written this must fail. */
+		//	if (psf->broadcast_16k == NULL && psf->have_written)
+		//	{	psf->error = SFE_CMD_HAS_DATA ;
+		//		return SF_FALSE ;
+		//		} ;
 
-			if (NOT (broadcast_var_set (psf, data, datasize)))
-				return SF_FALSE ;
+		//	if (NOT (broadcast_var_set (psf, data, datasize)))
+		//		return SF_FALSE ;
 
-			if (psf->write_header)
-				psf->write_header (psf, SF_TRUE) ;
-			return SF_TRUE ;
+		//	if (psf->write_header)
+		//		psf->write_header (psf, SF_TRUE) ;
+		//	return SF_TRUE ;
 
-		case SFC_GET_BROADCAST_INFO :
-			if (data == NULL)
-			{	psf->error = SFE_BAD_COMMAND_PARAM ;
-				return SF_FALSE ;
-				} ;
-			return broadcast_var_get (psf, data, datasize) ;
+		//case SFC_GET_BROADCAST_INFO :
+		//	if (data == NULL)
+		//	{	psf->error = SFE_BAD_COMMAND_PARAM ;
+		//		return SF_FALSE ;
+		//		} ;
+		//	return broadcast_var_get (psf, data, datasize) ;
 
-		case SFC_SET_CART_INFO :
-			{	int format = SF_CONTAINER (psf->sf.format) ;
-				/* Only WAV and RF64 support cart chunk format */
-				if (format != SF_FORMAT_WAV && format != SF_FORMAT_RF64)
-					return SF_FALSE ;
-				} ;
+		//case SFC_SET_CART_INFO :
+		//	{	int format = SF_CONTAINER (psf->sf.format) ;
+		//		/* Only WAV and RF64 support cart chunk format */
+		//		if (format != SF_FORMAT_WAV && format != SF_FORMAT_RF64)
+		//			return SF_FALSE ;
+		//		} ;
 
-			/* Only makes sense in SFM_WRITE or SFM_RDWR mode */
-			if ((psf->file.mode != SFM_WRITE) && (psf->file.mode != SFM_RDWR))
-				return SF_FALSE ;
-			/* If data has already been written this must fail. */
-			if (psf->cart_16k == NULL && psf->have_written)
-			{	psf->error = SFE_CMD_HAS_DATA ;
-				return SF_FALSE ;
-				} ;
-			if (NOT (cart_var_set (psf, data, datasize)))
-				return SF_FALSE ;
-			if (psf->write_header)
-				psf->write_header (psf, SF_TRUE) ;
-			return SF_TRUE ;
+		//	/* Only makes sense in SFM_WRITE or SFM_RDWR mode */
+		//	if ((psf->file.mode != SFM_WRITE) && (psf->file.mode != SFM_RDWR))
+		//		return SF_FALSE ;
+		//	/* If data has already been written this must fail. */
+		//	if (psf->cart_16k == NULL && psf->have_written)
+		//	{	psf->error = SFE_CMD_HAS_DATA ;
+		//		return SF_FALSE ;
+		//		} ;
+		//	if (NOT (cart_var_set (psf, data, datasize)))
+		//		return SF_FALSE ;
+		//	if (psf->write_header)
+		//		psf->write_header (psf, SF_TRUE) ;
+		//	return SF_TRUE ;
 
-		case SFC_GET_CART_INFO :
-			if (data == NULL)
-			{	psf->error = SFE_BAD_COMMAND_PARAM ;
-				return SF_FALSE ;
-				} ;
-			return cart_var_get (psf, data, datasize) ;
+		//case SFC_GET_CART_INFO :
+		//	if (data == NULL)
+		//	{	psf->error = SFE_BAD_COMMAND_PARAM ;
+		//		return SF_FALSE ;
+		//		} ;
+		//	return cart_var_get (psf, data, datasize) ;
 
 		case SFC_GET_CUE_COUNT :
 			if (datasize != sizeof (uint32_t) || data == NULL)
@@ -2755,12 +2755,12 @@ guess_file_type (SF_PRIVATE *psf)
 	if (buffer [0] == MAKE_MARKER ('R', 'F', '6', '4') && buffer [2] == MAKE_MARKER ('W', 'A', 'V', 'E'))
 		return SF_FORMAT_RF64 ;
 
-	if (buffer [0] == MAKE_MARKER ('I', 'D', '3', 3))
-	{	psf_log_printf (psf, "Found 'ID3' marker.\n") ;
-		if (id3_skip (psf))
-			return guess_file_type (psf) ;
-		return 0 ;
-		} ;
+	//if (buffer [0] == MAKE_MARKER ('I', 'D', '3', 3))
+	//{	psf_log_printf (psf, "Found 'ID3' marker.\n") ;
+	//	if (id3_skip (psf))
+	//		return guess_file_type (psf) ;
+	//	return 0 ;
+	//	} ;
 
 	/* Turtle Beach SMP 16-bit */
 	if (buffer [0] == MAKE_MARKER ('S', 'O', 'U', 'N') && buffer [1] == MAKE_MARKER ('D', ' ', 'S', 'A'))
@@ -3053,115 +3053,115 @@ psf_open_file (SF_PRIVATE *psf, SF_INFO *sfinfo)
 
 	/* Call the initialisation function for the relevant file type. */
 	switch (SF_CONTAINER (psf->sf.format))
-	{	case	SF_FORMAT_WAV :
-		case	SF_FORMAT_WAVEX :
-				error = wav_open (psf) ;
-				break ;
+	{	//case	SF_FORMAT_WAV :
+		//case	SF_FORMAT_WAVEX :
+		//		error = wav_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_AIFF :
-				error = aiff_open (psf) ;
-				break ;
+		//case	SF_FORMAT_AIFF :
+		//		error = aiff_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_AU :
-				error = au_open (psf) ;
-				break ;
+		//case	SF_FORMAT_AU :
+		//		error = au_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_RAW :
-				error = raw_open (psf) ;
-				break ;
+		//case	SF_FORMAT_RAW :
+		//		error = raw_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_W64 :
-				error = w64_open (psf) ;
-				break ;
+		//case	SF_FORMAT_W64 :
+		//		error = w64_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_RF64 :
-				error = rf64_open (psf) ;
-				break ;
+		//case	SF_FORMAT_RF64 :
+		//		error = rf64_open (psf) ;
+		//		break ;
 
-		/* Lite remove start */
-		case	SF_FORMAT_PAF :
-				error = paf_open (psf) ;
-				break ;
+		///* Lite remove start */
+		//case	SF_FORMAT_PAF :
+		//		error = paf_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_SVX :
-				error = svx_open (psf) ;
-				break ;
+		//case	SF_FORMAT_SVX :
+		//		error = svx_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_NIST :
-				error = nist_open (psf) ;
-				break ;
+		//case	SF_FORMAT_NIST :
+		//		error = nist_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_IRCAM :
-				error = ircam_open (psf) ;
-				break ;
+		//case	SF_FORMAT_IRCAM :
+		//		error = ircam_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_VOC :
-				error = voc_open (psf) ;
-				break ;
+		//case	SF_FORMAT_VOC :
+		//		error = voc_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_SDS :
-				error = sds_open (psf) ;
-				break ;
+		//case	SF_FORMAT_SDS :
+		//		error = sds_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_OGG :
-				error = ogg_open (psf) ;
-				break ;
+		//case	SF_FORMAT_OGG :
+		//		error = ogg_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_TXW :
-				error = txw_open (psf) ;
-				break ;
+		//case	SF_FORMAT_TXW :
+		//		error = txw_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_WVE :
-				error = wve_open (psf) ;
-				break ;
+		//case	SF_FORMAT_WVE :
+		//		error = wve_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_DWD :
-				error = dwd_open (psf) ;
-				break ;
+		//case	SF_FORMAT_DWD :
+		//		error = dwd_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_MAT4 :
-				error = mat4_open (psf) ;
-				break ;
+		//case	SF_FORMAT_MAT4 :
+		//		error = mat4_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_MAT5 :
-				error = mat5_open (psf) ;
-				break ;
+		//case	SF_FORMAT_MAT5 :
+		//		error = mat5_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_PVF :
-				error = pvf_open (psf) ;
-				break ;
+		//case	SF_FORMAT_PVF :
+		//		error = pvf_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_XI :
-				error = xi_open (psf) ;
-				break ;
+		//case	SF_FORMAT_XI :
+		//		error = xi_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_HTK :
-				error = htk_open (psf) ;
-				break ;
+		//case	SF_FORMAT_HTK :
+		//		error = htk_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_SD2 :
-				error = sd2_open (psf) ;
-				break ;
+		//case	SF_FORMAT_SD2 :
+		//		error = sd2_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_REX2 :
-				error = rx2_open (psf) ;
-				break ;
+		//case	SF_FORMAT_REX2 :
+		//		error = rx2_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_AVR :
-				error = avr_open (psf) ;
-				break ;
+		//case	SF_FORMAT_AVR :
+		//		error = avr_open (psf) ;
+		//		break ;
 
 		case	SF_FORMAT_FLAC :
 				error = flac_open (psf) ;
 				break ;
 
-		case	SF_FORMAT_CAF :
-				error = caf_open (psf) ;
-				break ;
+		//case	SF_FORMAT_CAF :
+		//		error = caf_open (psf) ;
+		//		break ;
 
-		case	SF_FORMAT_MPC2K :
-				error = mpc2k_open (psf) ;
-				break ;
+		//case	SF_FORMAT_MPC2K :
+		//		error = mpc2k_open (psf) ;
+		//		break ;
 
 		/* Lite remove end */
 
@@ -3280,30 +3280,30 @@ sf_set_chunk (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
 	return SFE_BAD_CHUNK_FORMAT ;
 } /* sf_set_chunk */
 
-SF_CHUNK_ITERATOR *
-sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
-{	SF_PRIVATE 	*psf ;
-
-	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
-
-	if (chunk_info)
-		return psf_get_chunk_iterator (psf, chunk_info->id) ;
-
-	return psf_get_chunk_iterator (psf, NULL) ;
-} /* sf_get_chunk_iterator */
-
-SF_CHUNK_ITERATOR *
-sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator)
-{	SF_PRIVATE 	*psf ;
-	SNDFILE	*sndfile = iterator ? iterator->sndfile : NULL ;
-
-	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
-
-	if (psf->next_chunk_iterator)
-		return psf->next_chunk_iterator (psf, iterator) ;
-
-	return NULL ;
-} /* sf_get_chunk_iterator_next */
+//SF_CHUNK_ITERATOR *
+//sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
+//{	SF_PRIVATE 	*psf ;
+//
+//	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+//
+//	if (chunk_info)
+//		return psf_get_chunk_iterator (psf, chunk_info->id) ;
+//
+//	return psf_get_chunk_iterator (psf, NULL) ;
+//} /* sf_get_chunk_iterator */
+//
+//SF_CHUNK_ITERATOR *
+//sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator)
+//{	SF_PRIVATE 	*psf ;
+//	SNDFILE	*sndfile = iterator ? iterator->sndfile : NULL ;
+//
+//	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+//
+//	if (psf->next_chunk_iterator)
+//		return psf->next_chunk_iterator (psf, iterator) ;
+//
+//	return NULL ;
+//} /* sf_get_chunk_iterator_next */
 
 int
 sf_get_chunk_size (const SF_CHUNK_ITERATOR * iterator, SF_CHUNK_INFO * chunk_info)
