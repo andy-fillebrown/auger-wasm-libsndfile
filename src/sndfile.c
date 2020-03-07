@@ -3053,10 +3053,10 @@ psf_open_file (SF_PRIVATE *psf, SF_INFO *sfinfo)
 
 	/* Call the initialisation function for the relevant file type. */
 	switch (SF_CONTAINER (psf->sf.format))
-	{	//case	SF_FORMAT_WAV :
-		//case	SF_FORMAT_WAVEX :
-		//		error = wav_open (psf) ;
-		//		break ;
+	{	case	SF_FORMAT_WAV :
+		case	SF_FORMAT_WAVEX :
+				error = wav_open (psf) ;
+				break ;
 
 		//case	SF_FORMAT_AIFF :
 		//		error = aiff_open (psf) ;

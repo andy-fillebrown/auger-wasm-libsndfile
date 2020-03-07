@@ -180,7 +180,7 @@ add_library (sndfile
 	src/common.c
 	src/file_io.c
 	src/command.c
-	# src/pcm.c
+	src/pcm.c
 	# src/ulaw.c
 	# src/alaw.c
 	src/float32.c
@@ -199,7 +199,7 @@ add_library (sndfile
  	# src/ima_oki_adpcm.c
 	# src/ima_oki_adpcm.h
 	# src/alac.c
-	# src/chunk.c
+	src/chunk.c
 	# src/ogg.h
 	# src/ogg.c
 	# src/chanmap.h
@@ -232,9 +232,9 @@ add_library (sndfile
 	# src/voc.c
 	# src/wve.c
 	# src/w64.c
-	# src/wavlike.h
-	# src/wavlike.c
-	# src/wav.c
+	src/wavlike.h
+	src/wavlike.c
+	src/wav.c
 	# src/xi.c
 	# src/mpc2k.c
 	# src/rf64.c
