@@ -605,7 +605,7 @@ if (ENABLE_PACKAGE_CONFIG)
 
 
 	install (TARGETS sndfile ${SNDFILE_PROGRAM_TARGETS}
-		EXPORT SndFileConfig
+		EXPORT LibSndFileConfig
 		RUNTIME DESTINATION			${CMAKE_INSTALL_BINDIR}
 		ARCHIVE DESTINATION			${CMAKE_INSTALL_LIBDIR}
 		LIBRARY DESTINATION			${CMAKE_INSTALL_LIBDIR}
@@ -614,14 +614,14 @@ if (ENABLE_PACKAGE_CONFIG)
 
 	include (CMakePackageConfigHelpers)
 
-	write_basic_package_version_file (SndFileConfigVersion.cmake COMPATIBILITY SameMajorVersion)
+	write_basic_package_version_file (LibSndFileConfigVersion.cmake COMPATIBILITY SameMajorVersion)
 
-	install(EXPORT SndFileConfig
-		NAMESPACE SndFile::
+	install(EXPORT LibSndFileConfig
+		NAMESPACE LibSndFile::
 		DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
 		)
 	install(
-		FILES ${CMAKE_CURRENT_BINARY_DIR}/SndFileConfigVersion.cmake
+		FILES ${CMAKE_CURRENT_BINARY_DIR}/LibSndFileConfigVersion.cmake
 		DESTINATION	${CMAKE_INSTALL_PACKAGEDIR}
 		)
 
